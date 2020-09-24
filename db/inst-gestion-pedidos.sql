@@ -21,13 +21,25 @@ CREATE TABLE pedidos(
     id_usuario INT NOT NULL,
     fecha_pedido TIMESTAMP,
     confirmar_pedido CHAR(2) DEFAULT 'no',
-    PRIMARY KEY (id_pedido)
+    PRIMARY KEY (id_pedido),
+    CONSTRAINT fk_pedido_usuarios
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
 );
-DROP TABLE IF EXISTS detalles_producto;
+DROP TABLE IF EXISTS detalles;
 CREATE TABLE detalles(
     id_detalle INT AUTO_INCREMENT,
     id_pedido INT NOT NULL,
     id_producto INT NOT NULL,
     cantidad INT NOT NULL,
-    PRIMARY KEY (id_detalle)
+    PRIMARY KEY (id_detalle),
+    CONSTRAINT fk_detalles_pedido
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+    CONSTRAINT fk_detalles_producto
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
 );
